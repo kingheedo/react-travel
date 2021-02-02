@@ -7,7 +7,7 @@ const productSchema = mongoose.Schema({
     },
             title: {
                 type:String,
-                maxWidth:50
+                maxlength:50
             },
             description:{
                 type: String,
@@ -28,6 +28,6 @@ const productSchema = mongoose.Schema({
 
 
 
-const Product = mongoose.model('User', productSchema);
+const Product = mongoose.model('Product', productSchema);
 
 module.exports = { Product }

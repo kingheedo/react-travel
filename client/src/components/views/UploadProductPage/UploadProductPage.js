@@ -49,6 +49,7 @@ function UploadProductPage(props) {
         .then(response =>{
             if(response.data.success) {
                 alert("상품 업로드에 성공했습니다.")
+                props.history.push('/')
             }else{
                 alert("상품 업로드에 실패했습니다.")
             }

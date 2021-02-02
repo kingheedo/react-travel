@@ -3,6 +3,7 @@ const router = express.Router();
 // const { Product } = require("../models/Product");
 var multer  = require('multer')
 const { auth } = require("../middleware/auth");
+const { Product } = require('../models/Product');
 
 //=================================
 //             Product
@@ -28,7 +29,12 @@ router.post('/image',(req,res) =>{
     })
 })
 
-router.post('/product',(req,res) =>{
-    
+router.post('/',(req,res) =>{
+    const product = new Product(req.body);
+
+    product.save((err) => {
+      if(err) return res.status(400).json({success:false, err})
+      return res.status(200).json({success:true})
+    })
 })
 module.exports = router;
