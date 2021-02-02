@@ -1,15 +1,33 @@
-// const mongoose = require('mongoose');
-// const bcrypt = require('bcrypt');
-// const saltRounds = 10;
-// const jwt = require('jsonwebtoken');
-// const moment = require("moment");
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const productSchema = mongoose.Schema({
+    writer: {
+        type: Schema.Types.ObjectId,
+        ref:'User'
+    },
+            title: {
+                type:String,
+                maxWidth:50
+            },
+            description:{
+                type: String,
+            },
+            price: {
+                type: Number,
+                default: 0
+            },
+            images: {
+                type: Array,
+                default: []
+            },
+            area: {
+                type: Number,
+                default: 1
+            }
+},{timestamps: true})
 
-// const productSchema = mongoose.Schema({
-   
-// })
 
 
+const Product = mongoose.model('User', productSchema);
 
-// const Product = mongoose.model('User', productSchema);
-
-// module.exports = { Product }
+module.exports = { Product }

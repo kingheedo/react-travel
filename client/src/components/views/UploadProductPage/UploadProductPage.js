@@ -17,7 +17,7 @@ function UploadProductPage(props) {
     const [description, setDescription] = useState("")
     const [price, setPrice] = useState(0)
     const [area, setArea] = useState(1)
-    
+    const [images, setImages] = useState([])
     const titleChangeHandler = (event) =>{
         setTitle(event.currentTarget.value)
     }
@@ -42,7 +42,7 @@ function UploadProductPage(props) {
             title,
             description,
             price,
-            // images,
+            images,
             area
         }
         Axios.post('/api/product', body)
@@ -53,6 +53,9 @@ function UploadProductPage(props) {
                 alert("상품 업로드에 실패했습니다.")
             }
         })
+    }
+    const updateImage = (newImages) =>{
+        setImages(newImages)
     }
     return (
         <div style={{maxWidth:"700px", margin: '2rem auto'}}>
@@ -65,7 +68,7 @@ function UploadProductPage(props) {
             <br/>
             <Form onSubmit = {submitHandler}>
                 {/* Dropzone */}
-                <ImageUpload/>
+                <ImageUpload connectFunction={updateImage}/>
                 <br/>
                 <br/>
                 <label>이름</label>

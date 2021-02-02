@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {PlusOutlined} from '@ant-design/icons'
 import Dropzone from 'react-dropzone'
 import Axios from 'axios';
-function ImageUpload() {
+function ImageUpload(props) {
     const [images, setImages] = useState([])
     const dropHandler = (files) =>{
         // console.log(files)
@@ -16,12 +16,20 @@ function ImageUpload() {
              if(response.data.success){
                 //  console.log(response.data)
                 setImages([...images,response.data.filePath])
+                props.connectFunction([...images,response.data.filePath])
              }else{
                  alert("이미지 업로드에 실패하였습니다.")
              }
          })
     }
-
+    const deleteHandler = (image) =>{
+        const currentIndex = images.indexOf(image)
+        // console.log(currentIndex)
+        const newImages = [...images]
+        newImages.splice(currentIndex,1)
+        setImages(newImages)
+        props.connectFunction(newImages)
+    }
     return (
         <div style={{display:'flex', justifyContent:'center'}}>
             <Dropzone onDrop={dropHandler}>
@@ -37,8 +45,10 @@ function ImageUpload() {
                 )}
             </Dropzone>
             <div style={{display:'flex',width:'350px', height:'240px', overflowX:'scroll'}}>
-                {images.map(image => (
-                    <img style={{width:'300px', height:'240px'}} src = {`http://localhost:5000/${image}`}/>
+                {images.map((image,index) => (
+                    <div key={index} onClick={() => deleteHandler(image)}>
+                        <img style={{width:'300px', height:'240px'}} src = {`http://localhost:5000/${image}`}/>
+                    </div>
                 ))}
             </div>
         </div>

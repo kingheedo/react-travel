@@ -27,4 +27,8 @@ router.post('/image',(req,res) =>{
     return res.json({success:true, filePath: res.req.file.path, fileName: res.req.file.name})
     })
 })
+
+router.post('/product',(req,res) =>{
+    
+})
 module.exports = router;
