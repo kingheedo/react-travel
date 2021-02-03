@@ -1,15 +1,75 @@
-import React from 'react'
-import { FaCode } from "react-icons/fa";
-
+import React, { useEffect,useState } from 'react'
+import Axios from 'axios'
+import { Card , Row,Col} from 'antd';
+import Meta from 'antd/lib/card/Meta'
+import ImageSlider from '../../utils/ImageSlider';
 function LandingPage() {
+
+    const [Products, setProducts] = useState([])
+    const [Skip, setSkip] = useState(0)
+    const [Limit, setLimit] = useState(2)
+    const renderImages = Products.map((product,index) => {
+                return <Col lg={6} md={8} xs={24} span={6} key={index}>
+                <Card
+                    cover={<ImageSlider images={product.images}/>}
+                >
+                    <Meta title={product.title} description={product.description}/>
+                </Card>
+                </Col>
+           })
+    const loadMoreHandler= () =>{
+        let skip = Skip + Limit
+        let body= {
+            skip: skip,
+            limit : Limit,
+            loadMore:true
+        }
+        Axios.post('/api/product/products',body)
+        .then(response => {
+                // console.log(response.data)
+            if(response.data.success){
+                if(body.loadMore){
+                    setProducts([...Products, ...response.data.productsInfo])
+                }else{
+                setProducts(response.data.productsInfo)
+                }
+            }else{
+                alert("상품을 가져오는데 실패했습니다.")
+            }
+        })
+        setSkip(skip)
+    }
+    useEffect(() => {
+
+        let body = {
+            skip: Skip,
+            limit: Limit
+        }
+        Axios.post('/api/product/products',body)
+        .then(response => {
+            if(response.data.success){
+                console.log(response.data)
+                setProducts(response.data.productsInfo)
+            }else{
+                alert("상품을 가져오는데 실패했습니다.")
+            }
+        })
+    }, [])
     return (
-        <>
-        <div className="app">
-            <FaCode style={{ fontSize: '4rem' }} /><br />
-            <span style={{ fontSize: '2rem' }}>Let's Start Coding!</span>
+        <div style={{width:'75%', margin: '3rem auto'}}>
+            <div style={{textAlign:'center'}}>
+                <h2>지역별 여행 리스트</h2>
+            </div>
+
+            <Row gutter={[16, 16]}>
+                {renderImages}
+            </Row>
+
+            <br/>
+            <div style={{display:'flex' ,justifyContent:"center"}}>
+                <button onClick={loadMoreHandler}>더 보기</button>
+            </div>
         </div>
-        <div style={{ float:'right' }}>Thanks For Using This Boiler Plate by John Ahn</div>
-        </>
     )
 }
 
