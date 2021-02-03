@@ -8,6 +8,7 @@ function LandingPage() {
     const [Products, setProducts] = useState([])
     const [Skip, setSkip] = useState(0)
     const [Limit, setLimit] = useState(2)
+    const [PostSize, setPostSize] = useState(0)
     const renderImages = Products.map((product,index) => {
                 return <Col lg={6} md={8} xs={24} span={6} key={index}>
                 <Card
@@ -33,6 +34,7 @@ function LandingPage() {
                 }else{
                 setProducts(response.data.productsInfo)
                 }
+                setPostSize(response.data.postSize)
             }else{
                 alert("상품을 가져오는데 실패했습니다.")
             }
@@ -41,15 +43,14 @@ function LandingPage() {
     }
     useEffect(() => {
 
-        let body = {
-            skip: Skip,
-            limit: Limit
-        }
-        Axios.post('/api/product/products',body)
+        
+         Axios.post('/api/product/products')
         .then(response => {
+                // console.log(response.data)
             if(response.data.success){
-                console.log(response.data)
-                setProducts(response.data.productsInfo)
+                
+                setProducts(response.data.productsInfo.slice(0,2))
+                setPostSize(response.data.postSize)
             }else{
                 alert("상품을 가져오는데 실패했습니다.")
             }
@@ -66,9 +67,12 @@ function LandingPage() {
             </Row>
 
             <br/>
+
+            {PostSize > Limit &&
             <div style={{display:'flex' ,justifyContent:"center"}}>
                 <button onClick={loadMoreHandler}>더 보기</button>
             </div>
+            }
         </div>
     )
 }
