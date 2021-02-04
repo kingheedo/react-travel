@@ -42,6 +42,7 @@ router.post('/products',(req,res) =>{
 
   let limit = req.body.limit ? parseInt(req.body.limit) : 50
   let skip = req.body.skip ? parseInt(req.body.skip) : 0
+  let term = req.body.searchTerm
 
   let findArgs = {};
 
@@ -63,13 +64,41 @@ router.post('/products',(req,res) =>{
   }
   console.log('findArgs', findArgs)
 
-  Product.find(findArgs)
-  .populate("writer")
-  .skip(skip)
-  .limit(limit)
-  .exec((err, productsInfo) => {
-    if (err) return res.status(400).json({success: false, err})
-    return res.status(200).json({success: true, productsInfo, postSize: productsInfo.length})
+  if(term){
+      Product.find(findArgs)
+      .find({$text:{$search: term}})
+      .populate("writer")
+      .skip(skip)
+      .limit(limit)
+      .exec((err, productsInfo) => {
+        if (err) return res.status(400).json({success: false, err})
+        return res.status(200).json({success: true, productsInfo, postSize: productsInfo.length})
   })
+  }else{
+    Product.find(findArgs)
+    .populate("writer")
+    .skip(skip)
+    .limit(limit)
+    .exec((err, productsInfo) => {
+      if (err) return res.status(400).json({success: false, err})
+      return res.status(200).json({success: true, productsInfo, postSize: productsInfo.length})
+    })
+  }
+
+  
+})
+
+
+router.get('/products_by_id',(req,res) =>{
+    let type = req.query.type
+    let productId = req.query.id
+
+
+    Product.find({_id: productId})
+    .populate('writer')
+    .exec((err, product) => {
+      if(err) return res.status(400).json({success: false ,err})
+      return res.status(200).json({success: true, product})
+    })
 })
 module.exports = router;

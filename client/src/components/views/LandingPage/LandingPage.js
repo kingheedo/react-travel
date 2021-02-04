@@ -23,9 +23,9 @@ function LandingPage() {
     const renderImages = Products.map((product,index) => {
                 return <Col lg={6} md={8} xs={24} span={6} key={index}>
                 <Card
-                    cover={<ImageSlider images={product.images}/>}
-                >
-                    <Meta title={product.title} description={product.description}/>
+                    cover={<a href={`/product/${product._id}`}><ImageSlider images={product.images}/></a>}
+                >   
+                    <Meta title={product.title} description={`$${product.price}`}/>
                 </Card>
                 </Col>
            })
@@ -124,7 +124,29 @@ function LandingPage() {
     }
 
     const updateSearchTerm = (newSearchTerm) => {
+
+        let body ={
+            skip: 0,
+            limit: Limit,
+            filters : Filters,
+            searchTerm : newSearchTerm
+        }
+        setSkip(0)
         setSearchTerm(newSearchTerm)
+        Axios.post('/api/product/products',body)
+        .then(response => {
+                // console.log(response.data)
+            if(response.data.success){
+                if(body.loadMore){
+                    setProducts([...Products, ...response.data.productsInfo])
+                }else{
+                setProducts(response.data.productsInfo)
+                }
+                setPostSize(response.data.postSize)
+            }else{
+                alert("상품을 가져오는데 실패했습니다.")
+            }
+        })
     }
     return (
         <div style={{width:'75%', margin: '3rem auto'}}>
