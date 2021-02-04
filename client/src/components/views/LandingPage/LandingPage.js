@@ -6,6 +6,9 @@ import ImageSlider from '../../utils/ImageSlider';
 import { area,price } from './Sections/Datas';
 import CheckBox from './Sections/CheckBox';
 import RadioBox from './Sections/RadioBox';
+import SearchFeature from './Sections/SearchFeature';
+
+
 function LandingPage() {
 
     const [Products, setProducts] = useState([])
@@ -16,7 +19,7 @@ function LandingPage() {
         area:[],
         price:[]
     })
-
+    const [SearchTerm, setSearchTerm] = useState("")
     const renderImages = Products.map((product,index) => {
                 return <Col lg={6} md={8} xs={24} span={6} key={index}>
                 <Card
@@ -119,6 +122,10 @@ function LandingPage() {
         showFilteredResults(newFilters)
         setFilters(newFilters)
     }
+
+    const updateSearchTerm = (newSearchTerm) => {
+        setSearchTerm(newSearchTerm)
+    }
     return (
         <div style={{width:'75%', margin: '3rem auto'}}>
             <div style={{textAlign:'center'}}>
@@ -137,7 +144,8 @@ function LandingPage() {
                 </Col>
             </Row>
             
-           
+           {/* Search */}
+           <SearchFeature updateSearchTerm = {updateSearchTerm}/>
 
             {/* ProductCard */}
             <Row gutter={[16, 16]}>
