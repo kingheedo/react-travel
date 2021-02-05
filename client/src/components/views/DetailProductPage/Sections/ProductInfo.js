@@ -1,7 +1,16 @@
 import React from 'react'
 import { Descriptions, Button } from 'antd';
-
+import  {useDispatch} from 'react-redux'
+import { addToCart } from '../../../../_actions/user_actions';
 function ProductInfo(props) {
+    //redux에 user정보가 있기 때문에 redux에도 cart 정보를 넣어준다.
+    const dispatch = useDispatch()
+    const clickHandler = () =>{
+    //필요한 정보를 Cart 필드에다가 넣어준다.
+    dispatch(addToCart(props.product._id))
+    }
+
+
     return (
         <div>
             <Descriptions title="Product Info" bordered>
@@ -14,7 +23,7 @@ function ProductInfo(props) {
             <br/>
             <br/>
             <div style={{display: 'flex',justifyContent: 'center'}}>
-                <Button size="large" shape="round" type="danger" onClick>Add To CART</Button>
+                <Button size="large" shape="round" type="danger" onClick = {clickHandler} >Add To CART</Button>
             </div>
         </div>
     )
