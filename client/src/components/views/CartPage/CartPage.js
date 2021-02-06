@@ -12,13 +12,13 @@ function CartPage(props) {
                     props.user.userData.cart.forEach(item =>{
                         cartItems.push(item.id)
                     })
-
+                    console.log(cartItems)
                     dispatch(getCartItems(cartItems,props.user.userData.cart))
                 }
             }
         
 
-    }, [])
+    }, [props.user.userData])
     return (
         <div>
             CartPage

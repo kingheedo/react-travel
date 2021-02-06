@@ -63,17 +63,23 @@ export function addToCart(id){
 }
 
 export function getCartItems(cartId,cartInfo){
-    // 리덕스에서 카트 id와 서버의 id를 비교해서 같다면은 불러오기 
+    
 
    
-    const request = axios.get(`/api/product/products_by_id?id=${cartId}&type=array`, body)
-    .then(response => 
-        //  cartId들에 해당하는 정보들을 Product Collection에서 가져온후에
-
-        
+    const request = axios.get(`/api/product/products_by_id?id=${cartId}&type=array`)
+    .then(response => {
+        //  cartId들에 해당하는 정보들을 
+        // Product Collection에서 가져온후에
         // Quantity 정보를 넣어 준다.
-        
-        );
+        cartInfo.forEach(item => {
+            response.data.product.forEach((productDetail, index) =>{
+                if(item.id === productDetail.id){
+                    response.data.product[index].quantity = item.quantity
+                }
+            })
+        })
+        return response.data
+    });
 
     return {
         type: GET_CART_ITEMS,
