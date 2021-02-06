@@ -93,11 +93,11 @@ router.get('/products_by_id',(req,res) =>{
     let type = req.query.type
     let productIds = req.query.id
   // console.log(productIds)
+  //id= '13213123, 1231414,142124124' 이거를
+      // productIds = [13213123', '1231414','142124124'] 이런식으로 바꿔주기
       if(type === "array"){
         let ids = req.query.id.split(',')
-        productIds = ids.map(item => {
-        return item
-      })
+        productIds = ids
       }
 
     Product.find({_id: {$in:productIds}})
