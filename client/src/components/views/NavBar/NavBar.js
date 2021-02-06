@@ -24,11 +24,11 @@ function NavBar() {
       <div className="menu__logo">
         <a href="/">Logo</a>
       </div>
-      <div className="menu__container">
-        <div className="menu_left">
+      <div className="menu__container" >
+        <div className="menu_left" style={{marginTop: '0.5rem'}}>
           <LeftMenu mode="horizontal" />
         </div>
-        <div className="menu_rigth">
+        <div className="menu_rigth" >
           <RightMenu mode="horizontal" />
         </div>
         <Button

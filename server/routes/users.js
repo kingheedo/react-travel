@@ -18,6 +18,8 @@ router.get("/auth", auth, (req, res) => {
         lastname: req.user.lastname,
         role: req.user.role,
         image: req.user.image,
+        cart: req.user.cart,
+        history: req.user.history
     });
 });
 
@@ -88,7 +90,7 @@ router.post("/addToCart", auth, (req, res) => {
                 {new: true},
                 (err,userInfo) => {
                     if(err) return res.status(400).json({success:false, err})
-                    return res.status(200).json({success: true, userInfoCart: userInfo.cart})
+                    return res.status(200).send(userInfo.cart)
                 }
                 )
             }else{
@@ -100,7 +102,7 @@ router.post("/addToCart", auth, (req, res) => {
                 {new:true},
                 (err, userInfo) => {
                     if(err) return res.status(400).json({success:false, err})
-                    return res.status(200).json({success: true, userInfoCart: userInfo.cart})
+                    return res.status(200).send(userInfo.cart)
                 }
             )
         }

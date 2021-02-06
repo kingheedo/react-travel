@@ -1,14 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { Menu } from 'antd';
+import { Menu,Badge } from 'antd';
 import axios from 'axios';
 import { USER_SERVER } from '../../../Config';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from "react-redux";
-
+import {ShoppingCartOutlined} from "@ant-design/icons"
 function RightMenu(props) {
   const user = useSelector(state => state.user)
-
   const logoutHandler = () => {
     axios.get(`${USER_SERVER}/logout`).then(response => {
       if (response.status === 200) {
@@ -36,6 +35,13 @@ function RightMenu(props) {
         
         <Menu.Item key="upload">
           <a href="/product/upload">Upload</a>
+        </Menu.Item>
+        <Menu.Item key="cart">
+          <Badge count={5} style={{marginTop:'1rem'}}>
+          <a href="/user/cart">
+            <ShoppingCartOutlined style={{fontSize: 30, marginTop:'1rem'}} />
+            </a>
+          </Badge>
         </Menu.Item>
         <Menu.Item key="logout">
           <a onClick={logoutHandler}>Logout</a>
