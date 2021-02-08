@@ -23,7 +23,7 @@ function CartPage(props) {
     return (
         <div style ={{width: '85%', margin: '3rem auto'}}>
             <h1>My Cart</h1>
-            <UserCardBlock products={props.user.cartDetail && props.user.cartDetail.product}/>
+            <UserCardBlock products={props.user.cartDetail}/>
         </div>
     )
 }

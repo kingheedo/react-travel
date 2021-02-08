@@ -9,13 +9,10 @@ function DetailProductPage(props) {
     useEffect(() => {
         Axios.get(`/api/product/products_by_id?id=${productId}&type=single`)
         .then(response => {
-            if(response.data.success){
-                console.log(response.data.product)
-                setProduct(response.data.product[0])
-            }else{
-                alert('상세 정보 가져오기를 실패하였습니다.')
-            }
+                // console.log(response.data.product)
+                setProduct(response.data[0])
         })
+        .catch(err => alert (err))
 
     }, [])
     
