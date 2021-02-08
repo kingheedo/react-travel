@@ -1,7 +1,8 @@
 import React,{useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
-import { getCartItems } from '../../../_actions/user_actions'
+import { getCartItems, removeCartItem } from '../../../_actions/user_actions'
 import UserCardBlock from './Sections/UserCardBlock'
+
 function CartPage(props) {
     const [Total, setTotal] = useState(0)
     const dispatch = useDispatch()
@@ -35,10 +36,18 @@ function CartPage(props) {
         setTotal(total)
     }
 
+    let removeFromCart = (productId) => {
+
+        dispatch(removeCartItem(productId))
+        
+    }
+
     return (
         <div style ={{width: '85%', margin: '3rem auto'}}>
             <h1>My Cart</h1>
-            <UserCardBlock products={props.user.cartDetail}/>
+            <div>
+                <UserCardBlock removeItem={removeFromCart} products={props.user.cartDetail}/>
+            </div>
 
             <div style={{marginTop:'3rem'}}>
                 <h2>Total Amount: ${Total}</h2>
